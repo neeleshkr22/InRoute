@@ -2,6 +2,7 @@ import db from "./Database/db.js";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import Router from "./Routers/auth.route.js";
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use(cors({
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(Router);
+
 
 app.get("/",(req,res)=>{
     res.send("Hello World");
