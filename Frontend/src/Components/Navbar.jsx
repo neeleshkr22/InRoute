@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,26 +10,26 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="text-2xl font-bold text-white hover:text-indigo-400 transition duration-200">
+            <Link to="/" className="text-2xl font-bold text-white hover:text-indigo-400 transition duration-200">
               YourLogo
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             <div className="flex items-center space-x-4">
-              <a
-                href="/login"
+              <Link
+                to="/login" // Use Link instead of a tag
                 className="text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition duration-200"
               >
                 Login
-              </a>
-              <a
-                href="/signup"
+              </Link>
+              <Link
+                to="/signup" // Use Link instead of a tag
                 className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 transition duration-200 shadow-lg transform hover:scale-105"
               >
                 Sign Up
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -65,18 +66,18 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div className={`${isOpen ? 'block' : 'hidden'} md:hidden bg-gray-800 bg-opacity-90`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <a
-            href="/login"
+          <Link
+            to="/login" // Use Link instead of a tag
             className="block text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-base font-medium transition duration-200"
           >
             Login
-          </a>
-          <a
-            href="/signup"
+          </Link>
+          <Link
+            to="/signup" // Use Link instead of a tag
             className="block w-full text-center bg-indigo-600 text-white px-4 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition duration-200 shadow-lg transform hover:scale-105"
           >
             Sign Up
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
