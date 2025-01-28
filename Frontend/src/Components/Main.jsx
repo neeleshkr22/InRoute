@@ -13,7 +13,7 @@ function Main() {
   const sectionsRef = useRef([]);
 
   useEffect(() => {
-    // Animate heading and text on load
+    
     gsap.fromTo(
       headingRef.current,
       { y: -50, opacity: 0 },
@@ -32,7 +32,7 @@ function Main() {
       { scale: 1, opacity: 1, duration: 1, ease: "back.out(1.7)", delay: 0.6 }
     );
 
-    // Animate cards on scroll
+   
     cardsRef.current.forEach((card, index) => {
       gsap.fromTo(
         card,
@@ -50,7 +50,7 @@ function Main() {
       );
     });
 
-    // Animate sections on scroll
+ 
     sectionsRef.current.forEach((section, index) => {
       gsap.fromTo(
         section,
@@ -71,7 +71,7 @@ function Main() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Background Video */}
+     
       <video
         autoPlay
         muted
