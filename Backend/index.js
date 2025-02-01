@@ -3,12 +3,12 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import Router from "./Routers/auth.route.js";
-
+import chatbotRouter from "./Routers/chatbot.route.js";
 dotenv.config();
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:5174"];
 
 app.use(cors({
     origin: allowedOrigins,
@@ -24,6 +24,8 @@ app.use(Router);
 app.get("/",(req,res)=>{
     res.send("Hello World");
 })
+
+app.use("/chatbot",chatbotRouter);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);

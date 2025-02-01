@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 
 const db = async () => {
@@ -7,4 +8,4 @@ const db = async () => {
   console.log("Connected to MongoDB");
 };
 
-module.exports = db;
+export default db;
