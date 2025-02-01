@@ -83,13 +83,12 @@ function Main() {
       </video>
 
       <Navbar />
-      <main className="flex-1 bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Hero Section */}
+      <main className="flex-1 bg-transparent=">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
           <div className="text-center mb-12">
             <h1
               ref={headingRef}
-              className="text-6xl font-extrabold text-white mb-4 drop-shadow-lg animate-pulse"
+              className="text-6xl font-extrabold text-grey mb-10 drop-shadow-lg animate-pulse"
             >
               Welcome to InRoute
             </h1>

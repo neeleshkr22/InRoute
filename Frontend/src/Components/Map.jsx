@@ -3,26 +3,70 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import { MapPin } from "lucide-react";
+import { MapPin, Crosshair } from "lucide-react";
 
-mapboxgl.accessToken = "pk.eyJ1IjoicHJhY2hlc3MxIiwiYSI6ImNtMG94c2JsZTBlaXUyaXFza2QxZDkycnMifQ.2W_lHN72lot9SbKctk4MDA"; // Replace with your Mapbox token
+mapboxgl.accessToken = "pk.eyJ1IjoicHJhY2hlc3MxIiwiYSI6ImNtMG94c2JsZTBlaXUyaXFza2QxZDkycnMifQ.2W_lHN72lot9SbKctk4MDA";
 
 const Maps = () => {
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
   const [startLocation, setStartLocation] = useState(null);
   const [endLocation, setEndLocation] = useState(null);
+  const userMarkerRef = useRef(null);
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {   
     const mapInstance = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [77.209, 28.6139], // Default center (Delhi)
+      center: [77.209, 28.6139],
       zoom: 12,
     });
 
     setMap(mapInstance);
     mapInstance.addControl(new mapboxgl.NavigationControl());
+
+    // Get and show user's location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { longitude, latitude } = position.coords;
+          setUserLocation([longitude, latitude]);
+          
+          // Create marker for user location
+          const markerElement = document.createElement('div');
+          markerElement.className = 'user-marker';
+          markerElement.innerHTML = `
+            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+              <div class="w-4 h-4 bg-white rounded-full"></div>
+            </div>
+          `;
+
+          userMarkerRef.current = new mapboxgl.Marker(markerElement)
+            .setLngLat([longitude, latitude])
+            .addTo(mapInstance);
+
+          // Watch position for updates
+          const watchId = navigator.geolocation.watchPosition(
+            (pos) => {
+              const newLocation = [pos.coords.longitude, pos.coords.latitude];
+              setUserLocation(newLocation);
+              if (userMarkerRef.current) {
+                userMarkerRef.current.setLngLat(newLocation);
+              }
+            },
+            (error) => {
+              console.error("Error watching location:", error);
+            }
+          );
+
+          return () => navigator.geolocation.clearWatch(watchId);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    }
 
     const createGeocoder = (placeholder, callback) => {
       const geocoder = new MapboxGeocoder({
@@ -43,14 +87,19 @@ const Maps = () => {
     mapInstance.addControl(createGeocoder("Enter start location", setStartLocation), "top-left");
     mapInstance.addControl(createGeocoder("Enter destination", setEndLocation), "top-left");
 
-    return () => mapInstance.remove();
+    return () => {
+      if (userMarkerRef.current) {
+        userMarkerRef.current.remove();
+      }
+      mapInstance.remove();
+    };
   }, []);
 
   useEffect(() => {
     if (startLocation && endLocation) {
-      getAccessibleRoute(startLocation, endLocation);
+      getAccessibleRoute(userLocation, endLocation);
     }
-  }, [startLocation, endLocation]);
+  }, [userLocation, endLocation]);
 
   const getAccessibleRoute = async (start, end) => {
     if (!map) return;
@@ -88,6 +137,16 @@ const Maps = () => {
     }
   };
 
+  const focusCurrentLocation = () => {
+    if (map && userLocation) {
+      map.flyTo({
+        center: userLocation,
+        zoom: 15,
+        duration: 1000
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-beige flex flex-col">
       <header className="bg-white shadow-md">
@@ -113,6 +172,12 @@ const Maps = () => {
         <div className="bg-white p-8 rounded-lg shadow-md">
           <div className="w-full h-[500px] rounded-lg shadow-lg relative">
             <div ref={mapContainerRef} className="w-full h-full" />
+            <button
+              onClick={focusCurrentLocation}
+              className="absolute bottom-4 right-4 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 focus:outline-none"
+            >
+              <Crosshair className="w-6 h-6 text-gray-600" />
+            </button>
           </div>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
