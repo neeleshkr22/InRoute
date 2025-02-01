@@ -1,8 +1,7 @@
-// import axios from 'axios';
-// import { detectLanguage } from '../Utils/languageDetector.js';
+// import { detectLanguage } from '../utils/languageDetector.js';
 
 // export const sendMessage = async (req, res) => {
-//   const { message } = req.body;
+//   const { message, isVoice } = req.body;
 
 //   if (!message.trim()) {
 //     return res.status(400).json({ reply: "Message cannot be empty." });
@@ -17,67 +16,52 @@
 //     }
 
 //     // For now, just echo back the message
+//     // In a real application, you would process the message and generate a response
 //     const botReply = `Received message in ${languageCode}: ${message}`;
-
-//     // Convert the bot's reply to speech
-//     const audioResponse = await generateSpeech(botReply, languageCode);
 
 //     res.status(200).json({
 //       reply: botReply,
-//       audio: audioResponse, // Returns base64 encoded audio
+//       languageCode
 //     });
 //   } catch (error) {
 //     console.error("Error processing the message:", error);
-//     res.status(500).json({ reply: "Error getting response" });
+//     res.status(500).json({ reply: "Hello how are you" });
 //   }
 // };
 
-// // Function to generate speech using Google TTS
-// const generateSpeech = async (text, languageCode) => {
-//   try {
-//     const response = await axios.post(
-//       `https://texttospeech.googleapis.com/v1/text:synthesize?key=${process.env.GOOGLE_API_KEY}`,
-//       {
-//         input: { text },
-//         voice: { languageCode, ssmlGender: 'NEUTRAL' },
-//         audioConfig: { audioEncoding: 'MP3' },
-//       }
-//     );
+// controllers/chatbot.controller.js
+import { OpenAI } from "openai";
+import dotenv from "dotenv";
 
-//     return response.data.audioContent;
-//   } catch (error) {
-//     console.error("Error generating speech:", error);
-//     throw new Error("Speech generation failed");
-//   }
-// };
+dotenv.config();
 
-import { detectLanguage } from '../utils/languageDetector.js';
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, 
+});
 
 export const sendMessage = async (req, res) => {
-  const { message, isVoice } = req.body;
-
-  if (!message.trim()) {
-    return res.status(400).json({ reply: "Message cannot be empty." });
-  }
-
   try {
-    // Detect the language of the incoming message
-    const languageCode = detectLanguage(message);
+    const userMessage = req.body.message;
 
-    if (!languageCode) {
-      return res.status(400).json({ reply: "Unable to detect language." });
+    if (!userMessage) {
+      return res.status(400).json({ message: "Message cannot be empty" });
     }
 
-    // For now, just echo back the message
-    // In a real application, you would process the message and generate a response
-    const botReply = `Received message in ${languageCode}: ${message}`;
-
-    res.status(200).json({
-      reply: botReply,
-      languageCode
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: userMessage }],
     });
+
+    res.json(response);
   } catch (error) {
-    console.error("Error processing the message:", error);
-    res.status(500).json({ reply: "Hello how are you" });
+    console.error("OpenAI API Error:", error);
+
+    if (error.response?.status === 429) {
+      return res.status(429).json({ 
+        message: "Rate limit exceeded. Please try again later." 
+      });
+    }
+
+    res.status(500).json({ message: "Internal server error" });
   }
 };
