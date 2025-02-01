@@ -29,39 +29,3 @@ export const sendMessage = async (req, res) => {
   }
 };
 
-// controllers/chatbot.controller.js
-// import { OpenAI } from "openai";
-// import dotenv from "dotenv";
-
-// dotenv.config();
-
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY, 
-// });
-
-// export const sendMessage = async (req, res) => {
-//   try {
-//     const userMessage = req.body.message;
-
-//     if (!userMessage) {
-//       return res.status(400).json({ message: "Message cannot be empty" });
-//     }
-
-//     const response = await openai.chat.completions.create({
-//       model: "gpt-3.5-turbo",
-//       messages: [{ role: "user", content: userMessage }],
-//     });
-
-//     res.json(response);
-//   } catch (error) {
-//     console.error("OpenAI API Error:", error);
-
-//     if (error.response?.status === 429) {
-//       return res.status(429).json({ 
-//         message: "Rate limit exceeded. Please try again later." 
-//       });
-//     }
-
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// };
