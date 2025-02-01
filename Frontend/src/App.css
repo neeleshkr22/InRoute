@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.head{
+    z-index: 0;
+}
+
+.imgdiv{
+    z-index: 50;
+}

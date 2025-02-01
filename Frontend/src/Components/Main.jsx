@@ -6,6 +6,7 @@ import one from "../../public/1.png";
 import two from "../../public/2.png";  
 import three from "../../public/3.png";  
 import four from "../../public/4.png"; 
+import '../../src/App.css';
 gsap.registerPlugin(ScrollTrigger);
 
 function Main() {
@@ -87,12 +88,11 @@ function Main() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1
-              ref={headingRef}
-              className="text-6xl font-extrabold text-grey mb-10 drop-shadow-lg animate-pulse"
+              className="head text-[300px] font-extrabold text-grey mb-10 -mt-36 drop-shadow-lg z-0 "
             >
               InRoute
             </h1>
-            <div className="imgdiv flex -mt-36 z-50">
+            <div className="imgdiv flex -mt-48 z-50">
               <div>
                 <img className="w-80 z-50" src={one} alt="" />
               </div>
