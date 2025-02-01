@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:5174"];
 
 app.use(cors({
     origin: allowedOrigins,
@@ -26,6 +26,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/chatbot",chatbotRouter);
+
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
     db();
