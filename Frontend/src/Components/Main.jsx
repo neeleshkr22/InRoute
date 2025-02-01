@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from "react";
 import Navbar from "./Navbar";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import one from "../../public/1.png";  
-import two from "../../public/2.png";  
-import three from "../../public/3.png";  
-import four from "../../public/4.png"; 
-import '../../src/App.css';
+import one from "../../public/1.png";
+import two from "../../public/2.png";
+import three from "../../public/3.png";
+import four from "../../public/4.png";
+import "../../src/App.css";
 gsap.registerPlugin(ScrollTrigger);
 
 function Main() {
@@ -68,17 +68,6 @@ function Main() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden font-sans">
-      {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-[-1] brightness-50"
-      >
-        <source src="/background-video.mp4" type="video/mp4" />
-      </video>
-
       {/* Navbar */}
       <Navbar />
 
@@ -88,26 +77,26 @@ function Main() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1
-              className="head text-[300px] font-extrabold text-grey mb-10 -mt-36 drop-shadow-lg z-0 "
+              className="head text-[300px] font-extrabold text-yellow-500 mb-10 -mt-36 drop-shadow-lg z-0"
             >
               InRoute
             </h1>
             <div className="imgdiv flex -mt-36 z-50">
               <div>
-                <img className="w-80 z-50" src={one} alt="" />
+                <img className="w-80 z-50" src={one} alt="Accessibility Icon" />
               </div>
               <div>
-                <img className="w-80" src={two} alt="" />
+                <img className="w-80" src={two} alt="Navigation Icon" />
               </div>
               <div>
-                <img className="w-80" src={three} alt="" />
+                <img className="w-80" src={three} alt="Community Support Icon" />
               </div>
               <div>
-                <img className="w-80" src={four} alt="" />
+                <img className="w-80" src={four} alt="Chatbot Assistance Icon" />
               </div>
             </div>
             <div className="flex justify-between w-[75vw] mt-6 mx-auto">
-              <p className="text-xl border-b ml-8">
+              <p className="text-xl text-gray-200 border-b ml-8">
                 Empowering accessible mobility for everyone, everywhere.
               </p>
               <div className="w-1/2 pt-3 pb-3 text-black text-base font-semibold rounded-full border shadow-md border-black cursor-pointer hover:shadow-xl transition">
@@ -135,20 +124,45 @@ function Main() {
                 <li>24/7 chatbot assistance for instant help</li>
               </ul>
             </div>
+
+            {/* Feature Icons Section */}
             <div className="grid grid-cols-2 gap-6">
-              {[ 
-                "/images/wheelchair-navigation.jpg",
-                "/images/inroute-app.jpg",
-                "/images/community-support.jpg",
-                "/images/chatbot-assistance.jpg",
-              ].map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`Feature ${index + 1}`}
-                  className="rounded-3xl shadow-2xl hover:shadow-3xl transition-shadow duration-300 transform hover:scale-[1.02]"
-                />
-              ))}
+              <div className="feature-card bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
+                <div className="text-center text-yellow-500 mb-4">
+                  <i className="fas fa-map-marked-alt text-4xl"></i>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Custom Routes</h3>
+                <p className="text-gray-300">
+                  Tailored navigation routes for wheelchair users, seniors, and others with specific accessibility needs.
+                </p>
+              </div>
+              <div className="feature-card bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
+                <div className="text-center text-yellow-500 mb-4">
+                  <i className="fas fa-headset text-4xl"></i>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Voice-Guided Navigation</h3>
+                <p className="text-gray-300">
+                  Get turn-by-turn directions with voice prompts to navigate easily and safely.
+                </p>
+              </div>
+              <div className="feature-card bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
+                <div className="text-center text-yellow-500 mb-4">
+                  <i className="fas fa-users text-4xl"></i>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Community Support</h3>
+                <p className="text-gray-300">
+                  Connect with local users and support each other through shared experiences and tips.
+                </p>
+              </div>
+              <div className="feature-card bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
+                <div className="text-center text-yellow-500 mb-4">
+                  <i className="fas fa-comments text-4xl"></i>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">24/7 Assistance</h3>
+                <p className="text-gray-300">
+                  Access our AI-powered chatbot anytime to help you with questions and concerns.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -188,28 +202,8 @@ function Main() {
               At InRoute, we believe in a world where mobility is not a privilege but a fundamental right. Our mission is to empower individuals with disabilities by providing tools, resources, and a supportive community to overcome barriers and achieve their goals.
             </p>
           </div>
-
-          <div
-            className="mt-20 bg-white/20 backdrop-blur-lg rounded-3xl p-12 shadow-2xl relative z-10"
-            ref={(el) => (sectionsRef.current[1] = el)}
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Join the Movement
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Become a part of the InRoute community today and make a lasting impact. Whether you’re a user, a contributor, or a partner, your involvement can help us create a more inclusive world.
-            </p>
-            <button className="mt-6 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-2xl transform transition-transform duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-              Learn More
-            </button>
-          </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-900/80 backdrop-blur-lg text-gray-300 py-8 text-center relative z-10">
-        <p>&copy; 2025 InRoute. All rights reserved.</p>
-      </footer>
     </div>
   );
 }
