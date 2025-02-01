@@ -4,6 +4,7 @@ import Login from './Components/Login';
 import Main from './Components/Main';
 import Signup from './Components/Signup';
 import Maps from './Components/Map';
+import Chatbot from './Components/Chatbot';
 
 
 function App() {
@@ -11,10 +12,11 @@ function App() {
         <Router>
             <Navbar />
             <Routes>
-              <Route path='/' element= {<Main/>}/>
+                <Route path='/' element= {<Main/>}/>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/maps" element={<Maps />} />
+                <Route path="/chatbot" element={<Chatbot />} />
             </Routes>
         </Router>
     );
