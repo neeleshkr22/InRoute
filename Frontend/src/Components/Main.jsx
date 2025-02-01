@@ -92,7 +92,7 @@ function Main() {
             >
               InRoute
             </h1>
-            <div className="imgdiv flex -mt-48 z-50">
+            <div className="imgdiv flex -mt-36 z-50">
               <div>
                 <img className="w-80 z-50" src={one} alt="" />
               </div>
