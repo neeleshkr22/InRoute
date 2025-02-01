@@ -29,6 +29,13 @@ function Main() {
       { scale: 1, opacity: 1, duration: 1, ease: "back.out(1.7)", delay: 0.6 }
     );
 
+    // Icon Animations in the Hero Section
+    gsap.fromTo(
+      ".imgdiv img",
+      { scale: 0.8, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 1, stagger: 0.2, ease: "back.out(1.7)", delay: 0.6 }
+    );
+
     // Cards Animation
     cardsRef.current.forEach((card, index) => {
       gsap.fromTo(
@@ -64,6 +71,23 @@ function Main() {
         }
       );
     });
+
+    // Staggered Text Animation for the Why Choose Us Section
+    gsap.fromTo(
+      ".feature-card",
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        stagger: 0.3,
+        scrollTrigger: {
+          trigger: ".feature-card",
+          start: "top 80%",
+        },
+      }
+    );
   }, []);
 
   return (
@@ -77,7 +101,8 @@ function Main() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1
-              className="head text-[300px] font-extrabold text-yellow-500 mb-10 -mt-36 drop-shadow-lg z-0"
+              className="head text-[300px] font-extrabold text-black mb-10 -mt-36 drop-shadow-lg z-0"
+              ref={headingRef}
             >
               InRoute
             </h1>
@@ -96,10 +121,13 @@ function Main() {
               </div>
             </div>
             <div className="flex justify-between w-[75vw] mt-6 mx-auto">
-              <p className="text-xl text-gray-200 border-b ml-8">
+              <p className="text-xl text-gray-900 border-b ml-8">
                 Empowering accessible mobility for everyone, everywhere.
               </p>
-              <div className="w-1/2 pt-3 pb-3 text-black text-base font-semibold rounded-full border shadow-md border-black cursor-pointer hover:shadow-xl transition">
+              <div
+                className="w-1/2 pt-3 pb-3 text-black text-base font-semibold rounded-full border shadow-md border-black cursor-pointer hover:shadow-xl transition"
+                ref={buttonRef}
+              >
                 Get Started
               </div>
             </div>
@@ -108,16 +136,16 @@ function Main() {
           {/* Features Section */}
           <div className="grid md:grid-cols-2 gap-12 items-center mt-16 relative z-10">
             <div className="space-y-6">
-              <h2 className="text-4xl font-bold text-white drop-shadow-lg">
+              <h2 className="text-4xl font-bold text-black drop-shadow-lg">
                 Accessible Navigation Made Easy
               </h2>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-gray-900 leading-relaxed">
                 InRoute provides real-time, accessible navigation and assistance
                 for people with disabilities. Our platform offers customized
                 routes, voice-guided navigation, and a supportive community to
                 ensure everyone can travel with confidence.
               </p>
-              <ul className="list-disc list-inside text-gray-300 space-y-2">
+              <ul className="list-disc list-inside text-gray-900 space-y-2">
                 <li>Customized routes for various accessibility needs</li>
                 <li>Real-time updates on accessibility of locations</li>
                 <li>Community-driven information and support</li>
