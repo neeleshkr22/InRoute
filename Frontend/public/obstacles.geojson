@@ -1,15 +1,105 @@
 {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": { "type": "stairs", "description": "Stairs at entrance" },
-        "geometry": { "type": "Point", "coordinates": [77.209, 28.6139] }
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8431, 21.1431]
       },
-      {
-        "type": "Feature",
-        "properties": { "type": "narrow pathway", "description": "Narrow pathway near park" },
-        "geometry": { "type": "Point", "coordinates": [77.21, 28.614] }
+      "properties": {
+        "description": "Potholes near Udhna Udyog Nagar road."
       }
-    ]
-  }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8432, 21.1432]
+      },
+      "properties": {
+        "description": "Blocked pathway due to parked vehicles."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8433, 21.1433]
+      },
+      "properties": {
+        "description": "Narrow sidewalk with construction debris."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8434, 21.1434]
+      },
+      "properties": {
+        "description": "Ramp missing at a crosswalk."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8435, 21.1435]
+      },
+      "properties": {
+        "description": "Uneven ground at intersection, hazardous for wheelchair users."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8436, 21.1436]
+      },
+      "properties": {
+        "description": "Steps leading up to an overpass, blocking accessibility."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8437, 21.1437]
+      },
+      "properties": {
+        "description": "Unmarked pedestrian crossing causing visibility issues."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8438, 21.1438]
+      },
+      "properties": {
+        "description": "Lack of proper street lighting along the route."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8439, 21.1439]
+      },
+      "properties": {
+        "description": "Obstructed sidewalk due to a roadside stall."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.8440, 21.1440]
+      },
+      "properties": {
+        "description": "Narrow pathway near a bus stop, difficult for wheelchair access."
+      }
+    }
+  ]
+}
