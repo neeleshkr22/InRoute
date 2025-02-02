@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const Chatbot = () => {
-  // Initialize Gemini
   const genAI = new GoogleGenerativeAI('AIzaSyBB7QVQkF2u8F94UjHdxxsbg0h6098Laro'); // Replace with your API key
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
   
