@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.3",
     "@tailwindcss/vite": "^4.0.0",
     "@turf/turf": "^7.2.0",
