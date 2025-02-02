@@ -112,6 +112,7 @@ const Maps = () => {
       return geocoder;
     };
 
+    // Add geocoder for start and destination locations
     mapInstance.addControl(createGeocoder("Enter start location", setStartLocation), "top-left");
     mapInstance.addControl(createGeocoder("Enter destination", setEndLocation), "top-left");
 
@@ -124,7 +125,7 @@ const Maps = () => {
   }, []);
 
   useEffect(() => {
-    if (startLocation && endLocation) {
+    if (userLocation && endLocation) {
       getAccessibleRoute(userLocation, endLocation);
     }
   }, [userLocation, endLocation]);
