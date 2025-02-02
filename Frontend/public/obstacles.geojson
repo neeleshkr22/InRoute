@@ -1,0 +1,15 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": { "type": "stairs", "description": "Stairs at entrance" },
+        "geometry": { "type": "Point", "coordinates": [77.209, 28.6139] }
+      },
+      {
+        "type": "Feature",
+        "properties": { "type": "narrow pathway", "description": "Narrow pathway near park" },
+        "geometry": { "type": "Point", "coordinates": [77.21, 28.614] }
+      }
+    ]
+  }

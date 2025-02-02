@@ -5,7 +5,7 @@
 //   return languageCode !== 'und' ? languageCode : null;
 // };
 
-import franc from 'franc';
+import {franc} from 'franc';
 
 export const detectLanguage = (text) => {
   try {
