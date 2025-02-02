@@ -1,119 +1,32 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-
-// const Chatbot = () => {
-//   const [messages, setMessages] = useState([
-//     { text: "Hello! How can I assist you today?", sender: "bot" }
-//   ]);
-//   const [input, setInput] = useState("");
-//   const [isListening, setIsListening] = useState(false);
-
-//   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-//   const recognition = new SpeechRecognition();
-
-//   recognition.continuous = false;
-//   recognition.interimResults = false;
-//   recognition.lang = ""; 
-
-  
-//   const startListening = () => {
-//     setIsListening(true);
-//     recognition.start();
-//   };
-
-//   // Handle voice input
-//   recognition.onresult = (event) => {
-//     const transcript = event.results[0][0].transcript;
-//     setInput(transcript);
-//     sendMessage(transcript);
-//     setIsListening(false);
-//   };
-
-//   recognition.onerror = (event) => {
-//     console.error('Speech recognition error:', event.error);
-//     setIsListening(false);
-//   };
-  
-//   recognition.onend = () => setIsListening(false);
-
-//   // Send Message to Server
-//   const sendMessage = async (messageText = input) => {
-//     if (!messageText.trim()) return;
-
-//     const userMessage = { text: messageText, sender: "user" };
-//     setMessages([...messages, userMessage]);
-//     setInput("");
-
-//     try {
-//       const response = await axios.post("http://localhost:5000/chatbot/chat", { message: messageText });
-//       const botMessage = { text: response.data.reply, sender: "bot" };
-//       setMessages((prev) => [...prev, botMessage]);
-//     } catch (error) {
-//       console.error("Error:", error);
-//       const errorMessage = error.response?.data?.message || "Error getting response. Please try again.";
-//       setMessages((prev) => [...prev, { text: errorMessage, sender: "bot" }]);
-//     }
-//   };
-
-//   return (
-//     <div className="flex flex-col h-screen bg-gray-100">
-//       {/* Chat Header */}
-//       <div className="bg-indigo-600 text-white text-center py-4 text-xl font-semibold shadow-lg">
-//         Multilingual AI Chatbot
-//       </div>
-
-//       {/* Chat Messages */}
-//       <div className="flex-1 overflow-y-auto p-4 space-y-2">
-//         {messages.map((msg, index) => (
-//           <div
-//             key={index}
-//             className={`max-w-xs px-4 py-2 rounded-lg ${
-//               msg.sender === "user" ? "bg-indigo-500 text-white self-end ml-auto" : "bg-gray-300 text-gray-800"
-//             }`}
-//           >
-//             {msg.text}
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Input Field */}
-//       <div className="p-4 bg-white shadow-md flex">
-//         <button 
-//           onClick={startListening} 
-//           className={`${isListening ? 'bg-red-600' : 'bg-red-500'} text-white px-4 py-2 rounded-l-lg`}
-//         >
-//           🎤
-//         </button>
-//         <input
-//           type="text"
-//           className="flex-1 px-4 py-2 border border-gray-300 focus:outline-none"
-//           placeholder="Type your message in any language..."
-//           value={input}
-//           onChange={(e) => setInput(e.target.value)}
-//           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-//         />
-//         <button onClick={() => sendMessage()} className="bg-indigo-600 text-white px-4 py-2 rounded-r-lg">
-//           Send
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Chatbot;
-
-
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const Chatbot = () => {
+  // Initialize Gemini
+  const genAI = new GoogleGenerativeAI('AIzaSyBB7QVQkF2u8F94UjHdxxsbg0h6098Laro'); // Replace with your API key
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  
   const [messages, setMessages] = useState([
     { text: "Hello! How can I assist you today?", sender: "bot" }
   ]);
   const [input, setInput] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [chat, setChat] = useState(null);
+
+  useEffect(() => {
+    // Initialize the chat session
+    const initChat = async () => {
+      const newChat = model.startChat({
+        history: [],
+        generationConfig: {
+          maxOutputTokens: 1000,
+        },
+      });
+      setChat(newChat);
+    };
+    initChat();
+  }, []);
 
   // Initialize speech recognition
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -162,35 +75,54 @@ const Chatbot = () => {
   
   recognition.onend = () => setIsListening(false);
 
+  const detectLanguage = async (text) => {
+    try {
+      // You can implement language detection here using a library like 'franc' or 
+      // Google Cloud Language API. For now, defaulting to 'en-US'
+      return 'en-IN';
+    } catch (error) {
+      console.error('Language detection error:', error);
+      return 'en-IN';
+    }
+  };
+
   const sendMessage = async (messageText = input, isVoice = false) => {
-    if (!messageText.trim()) return;
+    if (!messageText.trim() || !chat) return;
 
     const userMessage = { text: messageText, sender: "user" };
     setMessages(prev => [...prev, userMessage]);
     setInput("");
 
     try {
-      const response = await axios.post("http://localhost:5000/chatbot/chat", { 
-        message: messageText,
-        isVoice 
-      });
+      // Send message to Gemini
+      const result = await chat.sendMessage(messageText);
+      const response = await result.response;
+      const botReply = response.text();
+      
+      // Detect language of the response
+      const languageCode = await detectLanguage(botReply);
       
       const botMessage = { 
-        text: response.data.reply, 
+        text: botReply, 
         sender: "bot",
-        languageCode: response.data.languageCode
+        languageCode: languageCode
       };
       
       setMessages(prev => [...prev, botMessage]);
       
-      speakText(response.data.reply, response.data.languageCode);
+      // Speak the response if it's a voice interaction
+      if (isVoice) {
+        speakText(botReply, languageCode);
+      }
       
     } catch (error) {
       console.error("Error:", error);
-      const errorMessage = error.response?.data?.message || "fetching error from server please try again";
+      const errorMessage = "An error occurred. Please try again.";
       setMessages(prev => [...prev, { text: errorMessage, sender: "bot" }]);
-      // Speak error message too
-      speakText(errorMessage, 'en-US');
+      // Speak error message if it's a voice interaction
+      if (isVoice) {
+        speakText(errorMessage, 'en-US');
+      }
     }
   };
 
